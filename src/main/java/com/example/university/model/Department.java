@@ -11,7 +11,7 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 512)
+    @Column(name = "name", length = 512, unique = true, nullable = false)
     private String name;
 
     @ManyToMany(mappedBy = "department")

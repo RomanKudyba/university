@@ -94,11 +94,7 @@ public class Lector {
 
     @Override
     public String toString() {
-        return "Lector{" +
-                "firstName='" + firstName + '\'' +
-                ", surname='" + surname + '\'' +
-                ", degree='" + degree + '\'' +
-                '}';
+        return firstName + " " + surname;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.university.service;
 
-import java.util.List;
+import com.example.university.model.Department;
 
 public interface DepartmentService {
+    Department getDepartmentByName(String departmentName);
 }
