@@ -17,11 +17,71 @@ import java.util.stream.Collectors;
 @Controller
 public class ConsoleFunctionsController {
 
-    @Autowired
     private DepartmentService departmentService;
+    private LectorService lectorService;
 
     @Autowired
-    private LectorService lectorService;
+    ConsoleFunctionsController(DepartmentService departmentService, LectorService lectorService){
+        this.departmentService = departmentService;
+        this.lectorService = lectorService;
+    }
+
+    public void showHeadOfDepartment(){
+        Department department = getDepartmentByName();
+        if (validateDepartment(department)){
+            Lector lector = lectorService.getDepartmentHeadByDepartment(department);
+            if (lector != null){
+                System.out.println("Head of " + department.getName() + " department is " + lector.toString());
+            } else{
+                notFount();
+            }
+        }
+    }
+
+    public void showDegreeCountStats(){
+        Department department = getDepartmentByName();
+        if (validateDepartment(department)){
+            List<DegreeCount> statistic = lectorService.getStatisticCountsDegree(department);
+
+            for (Degree degree : Degree.values()) {
+                if (degree.equals(Degree.head_of_department)){
+                    continue;
+                }
+
+                List<DegreeCount> oneDegreeList = statistic.stream().filter(f -> f.getDegree().equals(degree)).collect(Collectors.toList());
+                if (oneDegreeList.size() == 0) {
+                    System.out.println(degree + " - " + 0);
+                } else {
+                    System.out.println(degree + " - " + oneDegreeList.get(0).getCount());
+                }
+            }
+        }
+
+    }
+
+    public void showAverageSalaryOfDepartment(){
+        Department department = getDepartmentByName();
+        if (validateDepartment(department)){
+            Double avgSalaryForDepartment = lectorService.getAvgSalaryByDepartment(department);
+            if (avgSalaryForDepartment == null){
+                notFount();
+            } else{
+                System.out.println("The average salary of " + department.getName() + " is " + avgSalaryForDepartment);
+            }
+        }
+    }
+
+    public void showCountEmployeesOfDepartment(){
+        Department department = getDepartmentByName();
+        if (validateDepartment(department)){
+            Long countEmployees = lectorService.getCountEmployeesByDepartment(department);
+            if (countEmployees == null){
+                notFount();
+            } else{
+                System.out.println(countEmployees);
+            }
+        }
+    }
 
     public void globalSearch(){
         System.out.print("Enter str to start global search:");
@@ -34,49 +94,28 @@ public class ConsoleFunctionsController {
         }
         if (lectorsStr.length() != 0) {
             lectorsStr = lectorsStr.substring(0, lectorsStr.length() -2);
+        } else {
+            lectorsStr += "Lectors didn't found";
         }
         System.out.println(lectorsStr);
     }
 
-    public void showHeadOfDepartment(){
+    private boolean validateDepartment(Department department){
+        if (department == null){
+            System.out.println("Department not found");
+            return false;
+        }
+
+        return true;
+    }
+
+    private Department getDepartmentByName(){
         String departmentName = ConsoleAppHelper.getDepartmentName();
         Department department = departmentService.getDepartmentByName(departmentName);
-        Lector lector = lectorService.getDepartmentHeadByDepartment(department);
-        if (lector != null){
-            System.out.println("Head of " + departmentName + " department is " + lector.toString());
-        }
+        return department;
     }
 
-    public void showDegreeCountStats(){
-        String departmentName2 = ConsoleAppHelper.getDepartmentName();
-        Department department2 = departmentService.getDepartmentByName(departmentName2);
-        List<DegreeCount> statistic = lectorService.getStatisticCountsDegree(department2);
-
-        for (Degree degree : Degree.values()) {
-            if (degree.equals(Degree.head_of_department)){
-                continue;
-            }
-
-            List<DegreeCount> oneDegreeList = statistic.stream().filter(f -> f.getDegree().equals(degree)).collect(Collectors.toList());
-            if (oneDegreeList.size() == 0) {
-                System.out.println(degree + " - " + 0);
-            } else {
-                System.out.println(degree + " - " + oneDegreeList.get(0).getCount());
-            }
-        }
-    }
-
-    public void showAverageSalaryOfDepartment(){
-        String departmentName3 = ConsoleAppHelper.getDepartmentName();
-        Department department3 = departmentService.getDepartmentByName(departmentName3);
-        Double avgSalaryForDepartment = lectorService.getAvgSalaryByDepartment(department3);
-        System.out.println("The average salary of " + departmentName3 + " is " + avgSalaryForDepartment);
-    }
-
-    public void showCountEmployeesOfDepartment(){
-        String departmentName4 = ConsoleAppHelper.getDepartmentName();
-        Department department4 = departmentService.getDepartmentByName(departmentName4);
-        Long countEmployees = lectorService.getCountEmployeesByDepartment(department4);
-        System.out.println(countEmployees);
+    private void notFount(){
+        System.out.println("Not found");
     }
 }

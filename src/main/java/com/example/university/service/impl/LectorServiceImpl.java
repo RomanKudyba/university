@@ -9,7 +9,6 @@ import com.example.university.service.LectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,13 +19,15 @@ public class LectorServiceImpl implements LectorService {
 
     @Override
     public Lector getDepartmentHeadByDepartment(Department department) {
-        Lector departmentHead = lectorRepo.getDepartmentHeadByDepartment(department.getId(), Degree.head_of_department);
+        List<Long> lectorIds = lectorRepo.getLectorIdsByDepartment(department.getId());
+        Lector departmentHead = lectorRepo.getDepartmentHeadByDepartment(lectorIds, Degree.head_of_department);
         return departmentHead;
     }
 
     @Override
     public List<DegreeCount> getStatisticCountsDegree(Department department) {
-        List<DegreeCount> degreeCounts = lectorRepo.getStatisticCounts(department.getId());
+        List<Long> lectorIds = lectorRepo.getLectorIdsByDepartment(department.getId());
+        List<DegreeCount> degreeCounts = lectorRepo.getStatisticCounts(lectorIds);
         return degreeCounts;
     }
 

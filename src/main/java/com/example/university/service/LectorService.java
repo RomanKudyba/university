@@ -7,6 +7,7 @@ import com.example.university.model.Lector;
 import java.util.List;
 
 public interface LectorService {
+
     Lector getDepartmentHeadByDepartment(Department department);
 
     List<DegreeCount> getStatisticCountsDegree(Department department);
