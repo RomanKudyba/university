@@ -19,7 +19,6 @@ public interface LectorRepo extends JpaRepository<Lector, Long> {
             + "From Lector l join l.department d where d.id = :departmentId Group by l.degree")
     List<DegreeCount> getStatisticCounts(Long departmentId);
 
-
     @Query(value = "Select AVG(l.salary) from Lector l join l.department d where d.id = ?1 Group By d.id")
     Double getAvgSalaryByDepartment(Long departmentId);
 
