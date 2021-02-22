@@ -19,15 +19,13 @@ public class LectorServiceImpl implements LectorService {
 
     @Override
     public Lector getDepartmentHeadByDepartment(Department department) {
-        List<Long> lectorIds = lectorRepo.getLectorIdsByDepartment(department.getId());
-        Lector departmentHead = lectorRepo.getDepartmentHeadByDepartment(lectorIds, Degree.head_of_department);
+        Lector departmentHead = lectorRepo.getDepartmentHeadByDepartment(department.getId());
         return departmentHead;
     }
 
     @Override
     public List<DegreeCount> getStatisticCountsDegree(Department department) {
-        List<Long> lectorIds = lectorRepo.getLectorIdsByDepartment(department.getId());
-        List<DegreeCount> degreeCounts = lectorRepo.getStatisticCounts(lectorIds);
+        List<DegreeCount> degreeCounts = lectorRepo.getStatisticCounts(department.getId());
         return degreeCounts;
     }
 

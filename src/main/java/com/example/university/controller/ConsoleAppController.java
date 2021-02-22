@@ -16,6 +16,11 @@ public class ConsoleAppController implements CommandLineRunner{
 
     @Override
     public void run(String... args) {
+        runFirstMenu();
+        runLastMenu();
+    }
+
+    public void runFirstMenu(){
         ConsoleAppHelper.firstMenu();
 
         Scanner scanner = new Scanner(System.in);
@@ -41,12 +46,10 @@ public class ConsoleAppController implements CommandLineRunner{
                 run();
                 break;
         }
-        lastMenu();
     }
 
-    private void lastMenu() {
-        System.out.println("0. exit programme");
-        System.out.println("9. first menu");
+    public void runLastMenu(){
+        ConsoleAppHelper.lastMenu();
         Scanner scanner = new Scanner(System.in);
         String number = scanner.next();
 
@@ -58,7 +61,7 @@ public class ConsoleAppController implements CommandLineRunner{
                 run();
                 break;
             default:
-                lastMenu();
+                runLastMenu();
                 break;
         }
     }

@@ -42,18 +42,10 @@ public class ConsoleFunctionsController {
         Department department = getDepartmentByName();
         if (validateDepartment(department)){
             List<DegreeCount> statistic = lectorService.getStatisticCountsDegree(department);
-
-            for (Degree degree : Degree.values()) {
-                if (degree.equals(Degree.head_of_department)){
-                    continue;
-                }
-
-                List<DegreeCount> oneDegreeList = statistic.stream().filter(f -> f.getDegree().equals(degree)).collect(Collectors.toList());
-                if (oneDegreeList.size() == 0) {
-                    System.out.println(degree + " - " + 0);
-                } else {
-                    System.out.println(degree + " - " + oneDegreeList.get(0).getCount());
-                }
+            if (statistic.size() == 0){
+                notFount();
+            } else{
+                System.out.println(statistic.toString());
             }
         }
 
@@ -88,16 +80,11 @@ public class ConsoleFunctionsController {
         Scanner scanner = new Scanner(System.in);
         String template = scanner.next();
         List<Lector> lectors = lectorService.globalSearch(template);
-        String lectorsStr = new String();
-        for (Lector lector : lectors) {
-            lectorsStr += lector.toString() + ", ";
+        if (lectors.size() == 0){
+            notFount();
+        } else{
+            System.out.println(lectors.toString());
         }
-        if (lectorsStr.length() != 0) {
-            lectorsStr = lectorsStr.substring(0, lectorsStr.length() -2);
-        } else {
-            lectorsStr += "Lectors didn't found";
-        }
-        System.out.println(lectorsStr);
     }
 
     private boolean validateDepartment(Department department){

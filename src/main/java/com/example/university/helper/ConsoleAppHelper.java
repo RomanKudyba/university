@@ -23,6 +23,12 @@ public class ConsoleAppHelper {
         System.out.print("Select a number:");
     }
 
+    public static void lastMenu() {
+        System.out.println("0. exit programme");
+        System.out.println("9. first menu");
+        System.out.print("Select a number:");
+    }
+
     public static String getDepartmentName(){
         System.out.print("Put department name:");
         Scanner scanner = new Scanner(System.in);

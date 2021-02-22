@@ -29,6 +29,9 @@ public class Lector {
     @Column(name = "sdate")
     private Date sdate;
 
+    @Column(name = "head_of_department", columnDefinition = "boolean default false")
+    private Boolean headOfDepartment;
+
     @ManyToMany
     @JoinTable(
             name = "department_lector",

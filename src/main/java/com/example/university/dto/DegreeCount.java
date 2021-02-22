@@ -29,4 +29,9 @@ public class DegreeCount {
     public void setDegree(Degree degree) {
         this.degree = degree;
     }
+
+    @Override
+    public String toString() {
+        return degree + "=" + count;
+    }
 }
